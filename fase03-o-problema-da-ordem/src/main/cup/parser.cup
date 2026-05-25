@@ -13,10 +13,6 @@ parser code {:
     }
 :};
 
-/* ========================================================================= */
-/* TERMINAIS */
-/* ========================================================================= */
-
 terminal IF, THEN, ELSE, WHILE;
 
 terminal ASSIGN;
@@ -36,10 +32,6 @@ terminal String NUMBER;
 
 terminal EOF;
 
-/* ========================================================================= */
-/* NÃO TERMINAIS */
-/* ========================================================================= */
-
 non terminal program;
 non terminal stmt_list;
 non terminal stmt;
@@ -52,35 +44,19 @@ non terminal null_stmt;
 
 non terminal expr;
 
-/* ========================================================================= */
-/* PRECEDÊNCIA */
-/* ========================================================================= */
-
 precedence left EQ, NE, LT, GT, LE, GE;
-
 precedence left PLUS, MINUS;
-
 precedence left TIMES, DIV, MOD;
-
-/* ========================================================================= */
-/* GRAMÁTICA */
-/* ========================================================================= */
 
 start with program;
 
-/* Programa */
-
 program ::= stmt_list EOF
 ;
-
-/* Lista de comandos */
 
 stmt_list ::=
       stmt_list stmt
     | stmt
 ;
-
-/* Comandos */
 
 stmt ::=
       assign_stmt
@@ -90,39 +66,27 @@ stmt ::=
     | null_stmt
 ;
 
-/* Atribuição */
-
 assign_stmt ::=
       ID ASSIGN expr SEMI
 ;
-
-/* IF */
 
 if_stmt ::=
       IF LPAREN expr RPAREN THEN block_stmt
     | IF LPAREN expr RPAREN THEN block_stmt ELSE block_stmt
 ;
 
-/* WHILE */
-
 while_stmt ::=
       WHILE LPAREN expr RPAREN block_stmt
 ;
-
-/* BLOCO */
 
 block_stmt ::=
       LBRACE stmt_list RBRACE
     | LBRACE RBRACE
 ;
 
-/* NULL STATEMENT */
-
 null_stmt ::=
       SEMI
 ;
-
-/* EXPRESSÕES */
 
 expr ::=
       expr PLUS expr
