@@ -5,29 +5,26 @@ import java_cup.runtime.Symbol;
 parser code {:
     public void syntax_error(Symbol cur_token) {
         throw new RuntimeException(
-            "Erro Sintático na linha " +
+            "Erro Sintático linha " +
             cur_token.left +
-            ", coluna " +
+            " coluna " +
             cur_token.right
         );
     }
 :};
 
 terminal IF, THEN, ELSE, WHILE;
-
 terminal ASSIGN;
-
 terminal LPAREN, RPAREN;
 terminal LBRACE, RBRACE;
-
 terminal SEMI;
 
-terminal PLUS, MINUS;
-terminal TIMES, DIV, MOD;
+terminal String ID;
+terminal String NUMBER;
 
-terminal EQ, NE, LT, GT, LE, GE;
-
-terminal ID, NUMBER;
+terminal String ADD_OP;
+terminal String MUL_OP;
+terminal String REL_OP;
 
 non terminal program;
 non terminal stmt_list;
@@ -41,9 +38,9 @@ non terminal null_stmt;
 
 non terminal expr;
 
-precedence left EQ, NE, LT, GT, LE, GE;
-precedence left PLUS, MINUS;
-precedence left TIMES, DIV, MOD;
+precedence left REL_OP;
+precedence left ADD_OP;
+precedence left MUL_OP;
 
 start with program;
 
@@ -87,17 +84,9 @@ null_stmt ::=
 ;
 
 expr ::=
-      expr PLUS expr
-    | expr MINUS expr
-    | expr TIMES expr
-    | expr DIV expr
-    | expr MOD expr
-    | expr EQ expr
-    | expr NE expr
-    | expr LT expr
-    | expr GT expr
-    | expr LE expr
-    | expr GE expr
+      expr ADD_OP expr
+    | expr MUL_OP expr
+    | expr REL_OP expr
     | LPAREN expr RPAREN
     | NUMBER
     | ID

@@ -78,27 +78,27 @@ OversizedIdentifier = {Letter}({Letter}|{Digit}|_){32,}
     }
 
     "==" {
-        return symbol(sym.EQ);
+        return symbol(sym.REL_OP, yytext());
     }
 
     "!=" {
-        return symbol(sym.NE);
+        return symbol(sym.REL_OP, yytext());
     }
 
     "<=" {
-        return symbol(sym.LE);
+        return symbol(sym.REL_OP, yytext());
     }
 
     ">=" {
-        return symbol(sym.GE);
+        return symbol(sym.REL_OP, yytext());
     }
 
     "<" {
-        return symbol(sym.LT);
+        return symbol(sym.REL_OP, yytext());
     }
 
     ">" {
-        return symbol(sym.GT);
+        return symbol(sym.REL_OP, yytext());
     }
 
     "=" {
@@ -106,23 +106,23 @@ OversizedIdentifier = {Letter}({Letter}|{Digit}|_){32,}
     }
 
     "+" {
-        return symbol(sym.PLUS);
+        return symbol(sym.ADD_OP, yytext());
     }
 
     "-" {
-        return symbol(sym.MINUS);
+        return symbol(sym.ADD_OP, yytext());
     }
 
     "*" {
-        return symbol(sym.TIMES);
+        return symbol(sym.MUL_OP, yytext());
     }
 
     "/" {
-        return symbol(sym.DIV);
+        return symbol(sym.MUL_OP, yytext());
     }
 
     "%" {
-        return symbol(sym.MOD);
+        return symbol(sym.MUL_OP, yytext());
     }
 
     {OversizedIdentifier} {
@@ -132,11 +132,11 @@ OversizedIdentifier = {Letter}({Letter}|{Digit}|_){32,}
     }
 
     {Identifier} {
-        return symbol(sym.ID);
+        return symbol(sym.ID, yytext());
     }
 
     {Number} {
-        return symbol(sym.NUMBER);
+        return symbol(sym.NUMBER, yytext());
     }
 
     . {
@@ -144,8 +144,9 @@ OversizedIdentifier = {Letter}({Letter}|{Digit}|_){32,}
             "Erro Léxico: Caractere ilegal -> " + yytext()
         );
     }
+
 }
 
 <<EOF>> {
-    return new Symbol(sym.EOF);
+    return symbol(sym.EOF);
 }
