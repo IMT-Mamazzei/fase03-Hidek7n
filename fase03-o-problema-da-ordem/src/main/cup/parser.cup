@@ -38,17 +38,17 @@ terminal String NUMBER;
 /* NÃO TERMINAIS */
 /* ========================================================= */
 
-non terminal Object program;
-non terminal Object stmt_list;
-non terminal Object stmt;
+non terminal program;
+non terminal stmt_list;
+non terminal stmt;
 
-non terminal Object assign_stmt;
-non terminal Object if_stmt;
-non terminal Object while_stmt;
-non terminal Object block_stmt;
-non terminal Object null_stmt;
+non terminal assign_stmt;
+non terminal if_stmt;
+non terminal while_stmt;
+non terminal block_stmt;
+non terminal null_stmt;
 
-non terminal Object expr;
+non terminal expr;
 
 /* ========================================================= */
 /* PRECEDÊNCIA */
@@ -61,7 +61,7 @@ precedence left PLUS, MINUS;
 precedence left TIMES, DIV, MOD;
 
 /* ========================================================= */
-/* INICIAL */
+/* START */
 /* ========================================================= */
 
 start with program;

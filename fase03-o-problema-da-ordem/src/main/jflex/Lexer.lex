@@ -31,22 +31,15 @@ WhiteSpace     = {LineTerminator} | [ \t\f]
 Letter         = [a-zA-Z]
 Digit          = [0-9]
 
-/* Número */
 Number = [0-9]+(\.[0-9]+)?([Ee][+-]?[0-9]+)?
 
-/* Identificador válido */
 Identifier = {Letter}({Letter}|{Digit}|_){0,31}
 
-/* Identificador gigante */
 OversizedIdentifier = {Letter}({Letter}|{Digit}|_){32,}
 
 %%
 
 <YYINITIAL> {
-
-    /* ========================================================= */
-    /* ESPAÇOS */
-    /* ========================================================= */
 
     {WhiteSpace} { }
 
@@ -151,7 +144,7 @@ OversizedIdentifier = {Letter}({Letter}|{Digit}|_){32,}
     }
 
     /* ========================================================= */
-    /* IDENTIFICADOR GIGANTE */
+    /* IDENTIFICADOR GRANDE */
     /* ========================================================= */
 
     {OversizedIdentifier} {
@@ -186,10 +179,6 @@ OversizedIdentifier = {Letter}({Letter}|{Digit}|_){32,}
         );
     }
 }
-
-/* ========================================================= */
-/* EOF */
-/* ========================================================= */
 
 <<EOF>> {
     return new Symbol(sym.EOF);
