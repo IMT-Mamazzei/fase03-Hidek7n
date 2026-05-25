@@ -13,6 +13,10 @@ parser code {:
     }
 :};
 
+/* ========================================================= */
+/* TERMINAIS */
+/* ========================================================= */
+
 terminal IF, THEN, ELSE, WHILE;
 
 terminal ASSIGN;
@@ -30,27 +34,43 @@ terminal EQ, NE, LT, GT, LE, GE;
 terminal String ID;
 terminal String NUMBER;
 
-terminal EOF;
+/* ========================================================= */
+/* NÃO TERMINAIS */
+/* ========================================================= */
 
-non terminal program;
-non terminal stmt_list;
-non terminal stmt;
+non terminal Object program;
+non terminal Object stmt_list;
+non terminal Object stmt;
 
-non terminal assign_stmt;
-non terminal if_stmt;
-non terminal while_stmt;
-non terminal block_stmt;
-non terminal null_stmt;
+non terminal Object assign_stmt;
+non terminal Object if_stmt;
+non terminal Object while_stmt;
+non terminal Object block_stmt;
+non terminal Object null_stmt;
 
-non terminal expr;
+non terminal Object expr;
+
+/* ========================================================= */
+/* PRECEDÊNCIA */
+/* ========================================================= */
 
 precedence left EQ, NE, LT, GT, LE, GE;
+
 precedence left PLUS, MINUS;
+
 precedence left TIMES, DIV, MOD;
+
+/* ========================================================= */
+/* INICIAL */
+/* ========================================================= */
 
 start with program;
 
-program ::= stmt_list EOF
+/* ========================================================= */
+/* GRAMÁTICA */
+/* ========================================================= */
+
+program ::= stmt_list
 ;
 
 stmt_list ::=

@@ -21,9 +21,9 @@ import java_cup.runtime.Symbol;
     }
 %}
 
-/* ========================================================================= */
+/* ========================================================= */
 /* MACROS */
-/* ========================================================================= */
+/* ========================================================= */
 
 LineTerminator = \r|\n|\r\n
 WhiteSpace     = {LineTerminator} | [ \t\f]
@@ -34,69 +34,124 @@ Digit          = [0-9]
 /* Número */
 Number = [0-9]+(\.[0-9]+)?([Ee][+-]?[0-9]+)?
 
-/* Identificador */
+/* Identificador válido */
 Identifier = {Letter}({Letter}|{Digit}|_){0,31}
 
-/* Identificador grande demais */
+/* Identificador gigante */
 OversizedIdentifier = {Letter}({Letter}|{Digit}|_){32,}
 
 %%
 
 <YYINITIAL> {
 
-    /* Espaços */
+    /* ========================================================= */
+    /* ESPAÇOS */
+    /* ========================================================= */
+
     {WhiteSpace} { }
 
     /* ========================================================= */
     /* PALAVRAS RESERVADAS */
     /* ========================================================= */
 
-    "if"        { return symbol(sym.IF); }
-    "then"      { return symbol(sym.THEN); }
-    "else"      { return symbol(sym.ELSE); }
-    "while"     { return symbol(sym.WHILE); }
+    "if" {
+        return symbol(sym.IF);
+    }
+
+    "then" {
+        return symbol(sym.THEN);
+    }
+
+    "else" {
+        return symbol(sym.ELSE);
+    }
+
+    "while" {
+        return symbol(sym.WHILE);
+    }
 
     /* ========================================================= */
     /* PONTUAÇÃO */
     /* ========================================================= */
 
-    "("         { return symbol(sym.LPAREN); }
-    ")"         { return symbol(sym.RPAREN); }
+    "(" {
+        return symbol(sym.LPAREN);
+    }
 
-    "{"         { return symbol(sym.LBRACE); }
-    "}"         { return symbol(sym.RBRACE); }
+    ")" {
+        return symbol(sym.RPAREN);
+    }
 
-    ";"         { return symbol(sym.SEMI); }
+    "{" {
+        return symbol(sym.LBRACE);
+    }
+
+    "}" {
+        return symbol(sym.RBRACE);
+    }
+
+    ";" {
+        return symbol(sym.SEMI);
+    }
 
     /* ========================================================= */
     /* OPERADORES RELACIONAIS */
     /* ========================================================= */
 
-    "=="        { return symbol(sym.EQ); }
-    "!="        { return symbol(sym.NE); }
+    "==" {
+        return symbol(sym.EQ);
+    }
 
-    "<="        { return symbol(sym.LE); }
-    ">="        { return symbol(sym.GE); }
+    "!=" {
+        return symbol(sym.NE);
+    }
 
-    "<"         { return symbol(sym.LT); }
-    ">"         { return symbol(sym.GT); }
+    "<=" {
+        return symbol(sym.LE);
+    }
 
-    "="         { return symbol(sym.ASSIGN); }
+    ">=" {
+        return symbol(sym.GE);
+    }
+
+    "<" {
+        return symbol(sym.LT);
+    }
+
+    ">" {
+        return symbol(sym.GT);
+    }
+
+    "=" {
+        return symbol(sym.ASSIGN);
+    }
 
     /* ========================================================= */
     /* OPERADORES MATEMÁTICOS */
     /* ========================================================= */
 
-    "+"         { return symbol(sym.PLUS); }
-    "-"         { return symbol(sym.MINUS); }
+    "+" {
+        return symbol(sym.PLUS);
+    }
 
-    "*"         { return symbol(sym.TIMES); }
-    "/"         { return symbol(sym.DIV); }
+    "-" {
+        return symbol(sym.MINUS);
+    }
 
-    "%"         { return symbol(sym.MOD); }
+    "*" {
+        return symbol(sym.TIMES);
+    }
+
+    "/" {
+        return symbol(sym.DIV);
+    }
+
+    "%" {
+        return symbol(sym.MOD);
+    }
 
     /* ========================================================= */
-    /* IDENTIFICADOR GRANDE DEMAIS */
+    /* IDENTIFICADOR GIGANTE */
     /* ========================================================= */
 
     {OversizedIdentifier} {
@@ -106,12 +161,16 @@ OversizedIdentifier = {Letter}({Letter}|{Digit}|_){32,}
     }
 
     /* ========================================================= */
-    /* IDENTIFICADORES E NÚMEROS */
+    /* IDENTIFICADORES */
     /* ========================================================= */
 
     {Identifier} {
         return symbol(sym.ID, yytext());
     }
+
+    /* ========================================================= */
+    /* NÚMEROS */
+    /* ========================================================= */
 
     {Number} {
         return symbol(sym.NUMBER, yytext());
@@ -123,11 +182,15 @@ OversizedIdentifier = {Letter}({Letter}|{Digit}|_){32,}
 
     . {
         throw new RuntimeException(
-            "Erro Léxico: Caractere Ilegal -> " + yytext()
+            "Erro Léxico: Caractere ilegal -> " + yytext()
         );
     }
 }
 
+/* ========================================================= */
+/* EOF */
+/* ========================================================= */
+
 <<EOF>> {
-    return symbol(sym.EOF);
+    return new Symbol(sym.EOF);
 }
