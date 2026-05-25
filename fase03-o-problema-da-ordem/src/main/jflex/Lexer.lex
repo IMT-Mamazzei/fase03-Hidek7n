@@ -34,10 +34,10 @@ Digit          = [0-9]
 /* Número */
 Number = [0-9]+(\.[0-9]+)?([Ee][+-]?[0-9]+)?
 
-/* Identificador até 32 chars */
+/* Identificador */
 Identifier = {Letter}({Letter}|{Digit}|_){0,31}
 
-/* Identificador maior que 32 chars */
+/* Identificador grande demais */
 OversizedIdentifier = {Letter}({Letter}|{Digit}|_){32,}
 
 %%
@@ -96,6 +96,16 @@ OversizedIdentifier = {Letter}({Letter}|{Digit}|_){32,}
     "%"         { return symbol(sym.MOD); }
 
     /* ========================================================= */
+    /* IDENTIFICADOR GRANDE DEMAIS */
+    /* ========================================================= */
+
+    {OversizedIdentifier} {
+        throw new RuntimeException(
+            "Erro Léxico: Identificador gigante -> " + yytext()
+        );
+    }
+
+    /* ========================================================= */
     /* IDENTIFICADORES E NÚMEROS */
     /* ========================================================= */
 
@@ -108,16 +118,6 @@ OversizedIdentifier = {Letter}({Letter}|{Digit}|_){32,}
     }
 
     /* ========================================================= */
-    /* IDENTIFICADOR GRANDE DEMAIS */
-    /* ========================================================= */
-
-    {OversizedIdentifier} {
-        throw new RuntimeException(
-            "Erro Léxico: Identificador gigante -> " + yytext()
-        );
-    }
-
-    /* ========================================================= */
     /* ERRO */
     /* ========================================================= */
 
@@ -127,8 +127,6 @@ OversizedIdentifier = {Letter}({Letter}|{Digit}|_){32,}
         );
     }
 }
-
-/* EOF */
 
 <<EOF>> {
     return symbol(sym.EOF);
