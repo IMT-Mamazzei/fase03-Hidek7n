@@ -1,6 +1,6 @@
 package br.maua.cic303;
 
-import java_cup.runtime.*;
+import java_cup.runtime.Symbol;
 
 parser code {:
     public void syntax_error(Symbol cur_token) {
@@ -12,10 +12,6 @@ parser code {:
         );
     }
 :};
-
-/* ========================================================= */
-/* TERMINAIS */
-/* ========================================================= */
 
 terminal IF, THEN, ELSE, WHILE;
 
@@ -31,12 +27,7 @@ terminal TIMES, DIV, MOD;
 
 terminal EQ, NE, LT, GT, LE, GE;
 
-terminal String ID;
-terminal String NUMBER;
-
-/* ========================================================= */
-/* NÃO TERMINAIS */
-/* ========================================================= */
+terminal ID, NUMBER;
 
 non terminal program;
 non terminal stmt_list;
@@ -50,27 +41,14 @@ non terminal null_stmt;
 
 non terminal expr;
 
-/* ========================================================= */
-/* PRECEDÊNCIA */
-/* ========================================================= */
-
 precedence left EQ, NE, LT, GT, LE, GE;
-
 precedence left PLUS, MINUS;
-
 precedence left TIMES, DIV, MOD;
-
-/* ========================================================= */
-/* START */
-/* ========================================================= */
 
 start with program;
 
-/* ========================================================= */
-/* GRAMÁTICA */
-/* ========================================================= */
-
-program ::= stmt_list
+program ::=
+    stmt_list
 ;
 
 stmt_list ::=
@@ -87,7 +65,7 @@ stmt ::=
 ;
 
 assign_stmt ::=
-      ID ASSIGN expr SEMI
+    ID ASSIGN expr SEMI
 ;
 
 if_stmt ::=
@@ -96,7 +74,7 @@ if_stmt ::=
 ;
 
 while_stmt ::=
-      WHILE LPAREN expr RPAREN block_stmt
+    WHILE LPAREN expr RPAREN block_stmt
 ;
 
 block_stmt ::=
@@ -105,28 +83,22 @@ block_stmt ::=
 ;
 
 null_stmt ::=
-      SEMI
+    SEMI
 ;
 
 expr ::=
       expr PLUS expr
     | expr MINUS expr
-
     | expr TIMES expr
     | expr DIV expr
     | expr MOD expr
-
     | expr EQ expr
     | expr NE expr
-
     | expr LT expr
     | expr GT expr
-
     | expr LE expr
     | expr GE expr
-
     | LPAREN expr RPAREN
-
     | NUMBER
     | ID
 ;

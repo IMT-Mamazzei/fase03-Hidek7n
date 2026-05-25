@@ -12,6 +12,7 @@ import java_cup.runtime.Symbol;
 %column
 
 %{
+
     private Symbol symbol(int type) {
         return new Symbol(type, yyline, yycolumn);
     }
@@ -19,11 +20,8 @@ import java_cup.runtime.Symbol;
     private Symbol symbol(int type, Object value) {
         return new Symbol(type, yyline, yycolumn, value);
     }
-%}
 
-/* ========================================================= */
-/* MACROS */
-/* ========================================================= */
+%}
 
 LineTerminator = \r|\n|\r\n
 WhiteSpace     = {LineTerminator} | [ \t\f]
@@ -43,10 +41,6 @@ OversizedIdentifier = {Letter}({Letter}|{Digit}|_){32,}
 
     {WhiteSpace} { }
 
-    /* ========================================================= */
-    /* PALAVRAS RESERVADAS */
-    /* ========================================================= */
-
     "if" {
         return symbol(sym.IF);
     }
@@ -62,10 +56,6 @@ OversizedIdentifier = {Letter}({Letter}|{Digit}|_){32,}
     "while" {
         return symbol(sym.WHILE);
     }
-
-    /* ========================================================= */
-    /* PONTUAÇÃO */
-    /* ========================================================= */
 
     "(" {
         return symbol(sym.LPAREN);
@@ -86,10 +76,6 @@ OversizedIdentifier = {Letter}({Letter}|{Digit}|_){32,}
     ";" {
         return symbol(sym.SEMI);
     }
-
-    /* ========================================================= */
-    /* OPERADORES RELACIONAIS */
-    /* ========================================================= */
 
     "==" {
         return symbol(sym.EQ);
@@ -119,10 +105,6 @@ OversizedIdentifier = {Letter}({Letter}|{Digit}|_){32,}
         return symbol(sym.ASSIGN);
     }
 
-    /* ========================================================= */
-    /* OPERADORES MATEMÁTICOS */
-    /* ========================================================= */
-
     "+" {
         return symbol(sym.PLUS);
     }
@@ -143,35 +125,19 @@ OversizedIdentifier = {Letter}({Letter}|{Digit}|_){32,}
         return symbol(sym.MOD);
     }
 
-    /* ========================================================= */
-    /* IDENTIFICADOR GRANDE */
-    /* ========================================================= */
-
     {OversizedIdentifier} {
         throw new RuntimeException(
             "Erro Léxico: Identificador gigante -> " + yytext()
         );
     }
 
-    /* ========================================================= */
-    /* IDENTIFICADORES */
-    /* ========================================================= */
-
     {Identifier} {
-        return symbol(sym.ID, yytext());
+        return symbol(sym.ID);
     }
-
-    /* ========================================================= */
-    /* NÚMEROS */
-    /* ========================================================= */
 
     {Number} {
-        return symbol(sym.NUMBER, yytext());
+        return symbol(sym.NUMBER);
     }
-
-    /* ========================================================= */
-    /* ERRO */
-    /* ========================================================= */
 
     . {
         throw new RuntimeException(
